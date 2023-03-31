@@ -7,31 +7,31 @@ export default function TextForm(props) {
     props.showAlert("Converted to uppercase", "success");
   };
 
-  const handleFirstClick = () => {
-    const arr = text.split(" ");
-    for (let i = 0; i < arr.length; i++) {
-      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-    }
-    let newString = arr.join(" ");
-    setText(newString);
-    props.showAlert("First charecter capitalized", "success");
-  };
-
   const handleLowClick = () => {
     let newString = text.toLowerCase();
     setText(newString);
     props.showAlert("Converted to lowercase", "success");
   };
 
+  const handleFirstClick = () => {
+    const arr = text.split(" ");
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1).toLowerCase();
+    }
+    let newString = arr.join(" ");
+    setText(newString);
+    props.showAlert("First charecter capitalized", "success");
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    props.showAlert("Text box cleared", "success");
+  };
+
   const handleClearClick = () => {
     let newString = "";
     setText(newString);
     props.showAlert("Text box cleared", "success");
-  };
-
-  const handleCopyClick = () => {
-    navigator.clipboard.writeText(text);
-    props.showAlert("Text copied", "success");
   };
 
   const handleRemoveSpaceClick = () => {
@@ -45,7 +45,9 @@ export default function TextForm(props) {
   };
 
   const [text, setText] = useState("");
-  let words = text.split(" ").length;
+  let words = text.split(/\s+/).filter((element) => {
+    return element.length !== 0;
+  }).length;
   return (
     <>
       <div>
@@ -59,25 +61,46 @@ export default function TextForm(props) {
             rows="8"
           ></textarea>
         </div>
-        <button className="btn btn-primary my-1" onClick={handleUpClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary my-1"
+          onClick={handleUpClick}
+        >
           Upper
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleLowClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1"
+          onClick={handleLowClick}
+        >
           Lower
         </button>
-        <button className="btn btn-primary" onClick={handleFirstClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary"
+          onClick={handleFirstClick}
+        >
           Cap First
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleCopyClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1"
+          onClick={handleCopy}
+        >
           Copy
         </button>
         <button
+          disabled={text.length === 0}
           className="btn btn-primary"
           onClick={handleRemoveSpaceClick}
         >
           Remove Extra Spaces
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleClearClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1"
+          onClick={handleClearClick}
+        >
           Clear
         </button>
       </div>
