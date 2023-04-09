@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
 import About from "./components/About";
 import { Routes, Route } from "react-router-dom";
+import Calclator from "./components/Calculator";
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -38,6 +39,14 @@ function App() {
             <div className="container my-3">
               <About />
               <p>This is our about page</p>
+            </div>
+          }
+        />
+        <Route
+          path="/temp"
+          element={
+            <div className="container my-3">
+              <Calclator />
             </div>
           }
         />
